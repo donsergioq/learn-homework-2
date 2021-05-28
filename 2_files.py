@@ -11,12 +11,45 @@
 5. Сохраните результат в файл referat2.txt
 """
 
+ENCODING = 'utf-8'
+REF_FILE = 'referat.txt'
+NEW_REF_FILE = 'referat2.txt'
+
+
+def read_file(filename):
+    try:
+        with open(filename, 'r', encoding=ENCODING) as f:
+            text = f.read()
+    except IOError:
+        raise FileExistsError
+    return text
+
+
+def write_file(filename, text):
+    try:
+        with open(filename, 'w', encoding=ENCODING) as f:
+            f.write(text)
+    except IOError:
+        raise FileExistsError
+
+
 def main():
-    """
-    Эта функция вызывается автоматически при запуске скрипта в консоли
-    В ней надо заменить pass на ваш код
-    """
-    pass
+    text = ''
+    try:
+        text = read_file(REF_FILE)
+    except FileExistsError:
+        print('File read file')
+        exit(1)
+
+    print(len(text))
+    print(len(text.split()))
+    new_text = text.replace('.', '!')
+
+    try:
+        write_file(NEW_REF_FILE, new_text)
+    except FileExistsError:
+        print('File write error')
+
 
 if __name__ == "__main__":
     main()
